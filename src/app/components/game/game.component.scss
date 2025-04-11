@@ -1,0 +1,91 @@
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.game-info {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.boats-selection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.boat-item {
+  button {
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    background: white;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &.selected {
+      border-color: #007bff;
+      background: #e6f2ff;
+    }
+  }
+}
+
+.game-board {
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(8, 50px);
+    grid-template-rows: repeat(8, 50px);
+    gap: 2px;
+    background: #007bff;
+    padding: 2px;
+    border-radius: 5px;
+  }
+
+  .row {
+    display: contents;
+  }
+
+  .cell {
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &.boat {
+      background: #6c757d;
+    }
+
+    &.hit {
+      background: #dc3545;
+    }
+
+    &.miss {
+      background: #17a2b8;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.game-over {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  text-align: center;
+}

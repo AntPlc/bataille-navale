@@ -1,0 +1,38 @@
+<div class="game-container">
+  <div class="game-info">
+    <h2>Bataille Navale</h2>
+    <div *ngIf="isPlacementPhase">
+      <h3>Phase de placement - Joueur {{currentPlayer}}</h3>
+      <div class="boats-selection">
+        <div *ngFor="let boat of boats" class="boat-item" [class.selected]="currentBoat === boat">
+          <button (click)="startPlacement(boat)" [disabled]="boat.count === 0">
+            {{boat.name}} ({{boat.size}} cases) - Restant: {{boat.count}}
+          </button>
+        </div>
+      </div>
+      <button (click)="toggleOrientation()">
+        Orientation: {{isHorizontal ? 'Horizontal' : 'Vertical'}}
+      </button>
+    </div>
+    <div *ngIf="!isPlacementPhase">
+      <h3>Tour du Joueur {{currentPlayer}}</h3>
+    </div>
+  </div>
+
+  <div class="game-board">
+    <div class="grid">
+      <div *ngFor="let row of [0,1,2,3,4,5,6,7]; let y = index" class="row">
+        <div *ngFor="let col of [0,1,2,3,4,5,6,7]; let x = index"
+             class="cell"
+             [class]="getCellClass(x, y)"
+             (click)="isPlacementPhase ? placeBoat(x, y) : attack(x, y)">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isGameOver()" class="game-over">
+    <h2>Partie terminée !</h2>
+    <p>Le joueur {{getWinner()}} a gagné !</p>
+  </div>
+</div>
