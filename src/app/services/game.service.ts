@@ -86,20 +86,27 @@ export class GameService {
     return true;
   }
 
-  attack(position: Position): boolean {
+  attack(position: Position): boolean | null {
     const targetBoard = this.gameState.currentPlayer === 1
       ? this.gameState.player2Board
       : this.gameState.player1Board;
 
+    // Vérifier si la case a déjà été attaquée (X ou O)
+    if (targetBoard[position.y][position.x] === 'X' || targetBoard[position.y][position.x] === 'O') {
+      // Case déjà attaquée, ne rien faire et retourner null
+      return null;
+    }
+
     if (targetBoard[position.y][position.x] === 'B') {
       targetBoard[position.y][position.x] = 'X';
       this.checkGameOver();
-      return true;
+      return true; // Bateau touché, le joueur rejoue (on ne change pas de joueur)
     } else if (targetBoard[position.y][position.x] === ' ') {
       targetBoard[position.y][position.x] = 'O';
+      // Changer de joueur seulement si le tir a manqué
+      this.gameState.currentPlayer = this.gameState.currentPlayer === 1 ? 2 : 1;
     }
 
-    this.gameState.currentPlayer = this.gameState.currentPlayer === 1 ? 2 : 1;
     return false;
   }
 

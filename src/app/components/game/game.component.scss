@@ -3,89 +3,191 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .game-info {
   margin-bottom: 20px;
+  width: 100%;
   text-align: center;
 }
 
 .boats-selection {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 10px;
-  margin: 20px 0;
+  margin-bottom: 15px;
 }
 
 .boat-item {
-  button {
-    padding: 10px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    background: white;
-    cursor: pointer;
-
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    &.selected {
-      border-color: #007bff;
-      background: #e6f2ff;
-    }
-  }
+  padding: 5px;
 }
 
-.game-board {
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(8, 50px);
-    grid-template-rows: repeat(8, 50px);
-    gap: 2px;
-    background: #007bff;
-    padding: 2px;
-    border-radius: 5px;
+.boat-item.selected {
+  background-color: #e6f7ff;
+  border-radius: 5px;
+}
+
+.boat-item button {
+  padding: 8px 16px;
+  background-color: #1890ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.boat-item button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.game-boards {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  width: 100%;
+}
+
+.board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.board-container h4 {
+  margin-bottom: 10px;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #333;
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.cell:hover {
+  background-color: #f0f0f0;
+}
+
+.cell.boat {
+  background-color: #91d5ff;
+}
+
+.cell.hit {
+  background-color: #ff4d4f;
+  position: relative;
+}
+
+.cell.hit::after {
+  content: '×';
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
+  position: absolute;
+}
+
+.cell.miss {
+  background-color: #d9d9d9;
+  position: relative;
+}
+
+.cell.miss::after {
+  content: '•';
+  font-size: 20px;
+  font-weight: bold;
+  color: #888;
+  position: absolute;
+}
+
+.player-change {
+  margin-top: 20px;
+}
+
+.change-player-button {
+  padding: 10px 20px;
+  background-color: #52c41a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.change-player-button:hover {
+  background-color: #73d13d;
+}
+
+.message-alert {
+  margin-top: 10px;
+  padding: 12px 20px;
+  background-color: #ffe58f;
+  border: 1px solid #ffd666;
+  border-radius: 4px;
+  color: #874d00;
+  font-weight: bold;
+  animation: fadeIn 0.3s;
+  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.message-success {
+  background-color: #d4f7d4 !important;
+  border-color: #52c41a !important;
+  color: #135200 !important;
+}
+
+.message-error {
+  background-color: #ffd6e7 !important;
+  border-color: #ff85c0 !important;
+  color: #c41d7f !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-
-  .row {
-    display: contents;
-  }
-
-  .cell {
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.2s;
-
-    &.boat {
-      background: #6c757d;
-    }
-
-    &.hit {
-      background: #dc3545;
-    }
-
-    &.miss {
-      background: #17a2b8;
-    }
-
-    &:hover {
-      opacity: 0.8;
-    }
+  to {
+    opacity: 1;
   }
 }
 
 .game-over {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  margin-top: 30px;
   text-align: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+button {
+  margin: 5px;
+  padding: 8px 16px;
+  background-color: #1890ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
 }

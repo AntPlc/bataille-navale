@@ -4,7 +4,7 @@
     <div *ngIf="isPlacementPhase">
       <h3>Phase de placement - Joueur {{currentPlayer}}</h3>
       <div class="boats-selection">
-        <div *ngFor="let boat of boats" class="boat-item" [class.selected]="currentBoat === boat">
+        <div *ngFor="let boat of getCurrentPlayerBoats()" class="boat-item" [class.selected]="currentBoat === boat">
           <button (click)="startPlacement(boat)" [disabled]="boat.count === 0">
             {{boat.name}} ({{boat.size}} cases) - Restant: {{boat.count}}
           </button>
@@ -16,16 +16,47 @@
     </div>
     <div *ngIf="!isPlacementPhase">
       <h3>Tour du Joueur {{currentPlayer}}</h3>
+      <button (click)="toggleSelectedBoard()" [disabled]="waitingForPlayerChange">
+        Afficher: {{selectedBoard === 'own' ? 'Mes bateaux' : 'Plateau adversaire'}}
+      </button>
+    </div>
+
+    <div *ngIf="waitingForPlayerChange" class="player-change">
+      <button (click)="changePlayer()" class="change-player-button">
+        {{isPlacementPhase ? 'Passer au joueur suivant' : 'Terminer mon tour'}}
+      </button>
+    </div>
+
+    <div *ngIf="showMessage" class="message-alert" [ngClass]="messageClass">
+      {{message}}
     </div>
   </div>
 
-  <div class="game-board">
-    <div class="grid">
-      <div *ngFor="let row of [0,1,2,3,4,5,6,7]; let y = index" class="row">
-        <div *ngFor="let col of [0,1,2,3,4,5,6,7]; let x = index"
-             class="cell"
-             [class]="getCellClass(x, y)"
-             (click)="isPlacementPhase ? placeBoat(x, y) : attack(x, y)">
+  <div class="game-boards">
+    <!-- Plateau du joueur (ses bateaux) -->
+    <div class="board-container" *ngIf="isPlacementPhase || selectedBoard === 'own'">
+      <h4>Mes bateaux</h4>
+      <div class="grid">
+        <div *ngFor="let row of [0,1,2,3,4,5,6,7]; let y = index" class="row">
+          <div *ngFor="let col of [0,1,2,3,4,5,6,7]; let x = index"
+               class="cell"
+               [class]="getCellClass(x, y, 'own')"
+               (click)="isPlacementPhase ? placeBoat(x, y) : null">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Plateau adversaire (pour les attaques) -->
+    <div class="board-container" *ngIf="!isPlacementPhase && selectedBoard === 'opponent'">
+      <h4>Plateau adversaire</h4>
+      <div class="grid">
+        <div *ngFor="let row of [0,1,2,3,4,5,6,7]; let y = index" class="row">
+          <div *ngFor="let col of [0,1,2,3,4,5,6,7]; let x = index"
+               class="cell"
+               [class]="getCellClass(x, y, 'opponent')"
+               (click)="attack(x, y)">
+          </div>
         </div>
       </div>
     </div>
