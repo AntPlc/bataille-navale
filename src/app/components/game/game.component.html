@@ -33,7 +33,7 @@
   </div>
 
   <div class="game-boards">
-    <!-- Plateau du joueur (ses bateaux) -->
+    <!-- plateau du joueur -->
     <div class="board-container" *ngIf="isPlacementPhase || selectedBoard === 'own'">
       <h4>Mes bateaux</h4>
       <div class="grid">
@@ -47,7 +47,7 @@
       </div>
     </div>
 
-    <!-- Plateau adversaire (pour les attaques) -->
+    <!-- plateau adversaire -->
     <div class="board-container" *ngIf="!isPlacementPhase && selectedBoard === 'opponent'">
       <h4>Plateau adversaire</h4>
       <div class="grid">

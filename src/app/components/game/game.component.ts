@@ -33,13 +33,13 @@ export default class GameComponent implements OnInit {
   constructor(private gameService: GameService) {}
 
   ngOnInit(): void {
-    // Initialiser les bateaux pour chaque joueur indépendamment
+    // initialiser les bateaux
     this.resetPlayerBoats();
     this.gameService.initializeGame(this.boatsTemplate);
   }
 
   resetPlayerBoats(): void {
-    // Créer des copies profondes des bateaux pour chaque joueur
+    // créer des copies pour chaque joueur
     this.player1Boats = this.boatsTemplate.map(boat => ({...boat}));
     this.player2Boats = this.boatsTemplate.map(boat => ({...boat}));
     this.currentBoat = this.player1Boats[0];
@@ -63,7 +63,7 @@ export default class GameComponent implements OnInit {
     if (success) {
       this.currentBoat.count--;
 
-      // Utiliser les bateaux du joueur actuel
+      // utiliser les bateaux du joueur
       const currentPlayerBoats = this.currentPlayer === 1 ? this.player1Boats : this.player2Boats;
 
       if (this.currentBoat.count === 0) {
@@ -104,24 +104,20 @@ export default class GameComponent implements OnInit {
     const position: Position = { x, y };
     const result = this.gameService.attack(position);
 
-    // Si result est null, la case a déjà été attaquée
     if (result === null) {
       this.showTemporaryMessage('Cette case a déjà été attaquée !', '');
       return;
     }
 
-    // Si le jeu est terminé, pas besoin d'attendre le changement de joueur
     if (this.isGameOver()) {
       return;
     }
 
-    // Si result est true, un bateau a été touché et le joueur peut rejouer
     if (result === true) {
       this.showTemporaryMessage('Touché ! Vous pouvez rejouer.', 'message-success');
       return;
     }
 
-    // Si c'est un coup dans l'eau, on attend la confirmation pour passer au joueur suivant
     this.showTemporaryMessage('Manqué !', 'message-error');
     this.waitingForPlayerChange = true;
   }
@@ -155,12 +151,10 @@ export default class GameComponent implements OnInit {
     let board;
 
     if (boardType === 'own') {
-      // Plateau du joueur actuel
       board = this.currentPlayer === 1
         ? this.gameService.getGameState().player1Board
         : this.gameService.getGameState().player2Board;
     } else {
-      // Plateau de l'adversaire
       board = this.currentPlayer === 1
         ? this.gameService.getGameState().player2Board
         : this.gameService.getGameState().player1Board;
@@ -168,7 +162,6 @@ export default class GameComponent implements OnInit {
 
     switch (board[y][x]) {
       case 'B':
-        // Ne pas montrer les bateaux de l'adversaire sauf s'ils sont touchés
         if (boardType === 'opponent' && !this.isGameOver()) {
           return 'empty';
         }
@@ -190,7 +183,6 @@ export default class GameComponent implements OnInit {
     return this.gameService.getWinner();
   }
 
-  // Retourne les bateaux du joueur actuel
   getCurrentPlayerBoats(): Boat[] {
     return this.currentPlayer === 1 ? this.player1Boats : this.player2Boats;
   }

@@ -53,12 +53,10 @@ export class GameService {
   placeBoat(player: number, boat: Boat, startPos: Position, isHorizontal: boolean): boolean {
     const board = player === 1 ? this.gameState.player1Board : this.gameState.player2Board;
 
-    // Vérifier si le placement est valide
     if (!this.isValidPlacement(board, startPos, boat.size, isHorizontal)) {
       return false;
     }
 
-    // Placer le bateau
     for (let i = 0; i < boat.size; i++) {
       const x = isHorizontal ? startPos.x + i : startPos.x;
       const y = isHorizontal ? startPos.y : startPos.y + i;
@@ -69,14 +67,12 @@ export class GameService {
   }
 
   private isValidPlacement(board: string[][], startPos: Position, size: number, isHorizontal: boolean): boolean {
-    // Vérifier les limites du plateau
     if (isHorizontal) {
       if (startPos.x + size > 8) return false;
     } else {
       if (startPos.y + size > 8) return false;
     }
 
-    // Vérifier les collisions
     for (let i = 0; i < size; i++) {
       const x = isHorizontal ? startPos.x + i : startPos.x;
       const y = isHorizontal ? startPos.y : startPos.y + i;
@@ -91,19 +87,16 @@ export class GameService {
       ? this.gameState.player2Board
       : this.gameState.player1Board;
 
-    // Vérifier si la case a déjà été attaquée (X ou O)
     if (targetBoard[position.y][position.x] === 'X' || targetBoard[position.y][position.x] === 'O') {
-      // Case déjà attaquée, ne rien faire et retourner null
       return null;
     }
 
     if (targetBoard[position.y][position.x] === 'B') {
       targetBoard[position.y][position.x] = 'X';
       this.checkGameOver();
-      return true; // Bateau touché, le joueur rejoue (on ne change pas de joueur)
+      return true;
     } else if (targetBoard[position.y][position.x] === ' ') {
       targetBoard[position.y][position.x] = 'O';
-      // Changer de joueur seulement si le tir a manqué
       this.gameState.currentPlayer = this.gameState.currentPlayer === 1 ? 2 : 1;
     }
 
