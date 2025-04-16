@@ -1,3 +1,10 @@
+/*
+Service central qui gère toute la logique du jeu
+Gestion des plateaux des deux joueurs
+Validation des règles de jeu
+Suivi de l'état du jeu
+*/
+
 import { Injectable } from '@angular/core';
 
 export interface Boat {

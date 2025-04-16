@@ -1,3 +1,10 @@
+/*
+Component principal qui gère l'interface utilisateur
+Gestion des événements de placement des bateaux
+Gestion des attaques
+Affichage des messages et des résultats
+*/
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameService, Boat, Position } from '../../services/game.service';
